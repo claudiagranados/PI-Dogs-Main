@@ -1,0 +1,36 @@
+.div {
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 3px;
+  width: 300px;
+  height: 300px;
+  font-size: 10px;
+  color: white;
+  background-color: rgb(255, 92, 141);
+  margin: 5px;
+}
+
+.img {
+  width: 170px;
+  height: 120px;
+  border-radius: 5px;
+}
+
+.link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
+.link:hover {
+  -webkit-box-shadow: 10px 10px 28px 0px #cc2e85;
+  -moz-box-shadow: 10px 10px 28px 0px #cc2eac;
+  box-shadow: 10px 10px 28px 0px #d467b0;
+}
+
+.temperament {
+  text-align: center;
+  width: fit-content; /* ajusta el ancho según tu preferencia */
+  width: 200px; /* asegura que el ancho no sea más grande que el contenedor */
+}

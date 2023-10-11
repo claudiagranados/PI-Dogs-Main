@@ -1,0 +1,34 @@
+.div {
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+
+.divPadre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.img {
+  width: 600px;
+  height: 00px;
+}
+
+.Paginado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PaginadoPadre {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*
+flex-wrap lo que hace es que se ajusta el contenido o elementos del div se ajusten ante la pantalla...
+*/

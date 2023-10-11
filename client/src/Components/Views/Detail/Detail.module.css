@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background);
+  background-image: url("../../../extras/DOGDETAIL.png");
+  background-blend-mode: multiply;
+  background-size: cover;
+}
+
+.name {
+  font-size: 30px;
+}
+
+.imgContainer {
+  position: relative;
+  width: 40vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.imagen {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  width: 40vw;
+  height: 60vh;
+  object-fit: contain; 
+  border: 10px outset var(--background);
+}
+
+.texts{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 40vw;
+}
+.text{
+  text-align: left;
+}
+

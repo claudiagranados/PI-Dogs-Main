@@ -1,0 +1,84 @@
+.div {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+  padding: 10px;
+}
+
+.h3 {
+  color: white;
+  font-size: 25px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin: 10px;
+}
+
+/* .Boton {
+  width: fit-content;
+  height: fit-content;
+} */
+
+.Boton {
+  background-color: #000000; /* Color de fondo */
+  border: none; /* Sin borde */
+  color: white; /* Color del texto */
+  height: 40px;
+  width: 80px;
+  border-radius: 3px;
+  /* padding: 15px 32px; Tamaño del botón */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Mostrar como un bloque */
+  font-size: 10px; /* Tamaño de la fuente */
+  margin: 10px; /* Margen */
+  cursor: pointer; /* Cambiar el cursor a un puntero */
+}
+
+/* Animación al hacer hover */
+.Boton:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.1); /* Escalar el botón */
+  transition-duration: 0.2s; /* Duración de la transición */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+/* Animación al hacer clic */
+.Boton:active {
+  background-color: #3e8e41;
+  transform: scale(0.9); /* Escalar el botón */
+  transition-duration: 0.2s; /* Duración de la transición */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+.BotonAnterior {
+  background-color: #000000; /* Color de fondo */
+  border: none; /* Sin borde */
+  color: white; /* Color del texto */
+  height: 40px;
+  width: 80px;
+  border-radius: 3px;
+  /* padding: 15px 32px; Tamaño del botón */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Mostrar como un bloque */
+  font-size: 10px; /* Tamaño de la fuente */
+  margin: 10px; /* Margen */
+  cursor: pointer; /* Cambiar el cursor a un puntero */
+}
+
+/* Animación al hacer hover */
+.BotonAnterior:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.1); /* Escalar el botón */
+  transition-duration: 0.2s; /* Duración de la transición */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+/* Animación al hacer clic */
+.BotonAnterior:active {
+  background-color: #9c4646;
+  transform: scale(0.9); /* Escalar el botón */
+  transition-duration: 0.2s; /* Duración de la transición */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra */
+}

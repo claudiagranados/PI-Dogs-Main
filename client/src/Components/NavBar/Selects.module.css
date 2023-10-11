@@ -1,0 +1,25 @@
+.div {
+  color: rgb(242, 236, 236);
+  background-color: rgb(237, 232, 232);
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: solid rgb(248, 243, 247) 2px;
+}
+
+.div1 {
+  display: flex;
+  justify-content: normal;
+  margin: 15px;
+}
+
+.select {
+  border-radius: 0px;
+  width: 120px;
+  height: 40px;
+  margin: 5px;
+  background-color: rgb(255, 192, 211);
+}

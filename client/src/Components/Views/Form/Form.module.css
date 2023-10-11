@@ -1,0 +1,75 @@
+.divform {
+  text-align: center;
+  margin-top: 30px;
+  border-radius: 0;
+}
+
+.h1form {
+  color: FF5C8D;
+  text-align: center;
+  margin: 0;
+}
+
+.inputdogsname,
+.temperamentform {
+  border: none;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 50;
+  outline: none;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  font-size: x-small;
+  border-radius: 0;
+}
+
+.inputdogsname:before,
+.temperamentform:before {
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  position: absolute;
+  -webkit-font-smoothing: antialiased;
+  background: FDEFF4;
+  height: 100%;
+  left: 0;
+  top: 0;
+  line-height: 3;
+  font-size: 140%;
+  width: 40px;
+}
+
+.inputdogsname,
+.temperamentform {
+  background: rgb(255, 192, 211);
+  color: 524A4E;
+  margin-bottom: 10px
+}
+
+.inputdogsname:hover,
+.temperamentform:hover {
+  background: rgb(188, 152, 126);
+}
+
+.inputdogsname:active,
+.temperamentform:active {
+  background: rgb(188, 152, 126);
+  top: 2px;
+}
+
+.labeldogsname,
+.labeldogsnamediv,
+.labelminheightdiv {
+  color: FFC0D3;
+  font-size: 23px;
+}
