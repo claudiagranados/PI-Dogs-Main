@@ -15,7 +15,7 @@ const initialState = {
   AllDogs: [],
   AllDogsCopia: [],
   Temperaments: [],
-  DogDetail: {},
+  DogDetail: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -49,7 +49,7 @@ const rootReducer = (state = initialState, action) => {
     case CLEANDETAIL_DOG:
       return {
         ...state,
-        DogDetail: {},
+        DogDetail:[],
       };
 
     case ORDENAMIENTO_PESO:
@@ -101,7 +101,7 @@ const rootReducer = (state = initialState, action) => {
     case FILTRADO_TEMPERAMENTO:
       return {
         ...state,
-        AllDogs: [...state.AllDogsCopia].filter(
+        AllDogs: [...state.AllDogs].filter(
           (dog) =>
             dog.temperament !== undefined &&
             dog.temperament.includes(action.payload) === true
@@ -113,7 +113,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         AllDogs:
           action.payload === "AllDogs"
-            ? [...state.AllDogsCopia].map((dog) => dog)
+            ? [...state.AllDogsCopia].map((Dog) => Dog)
             : action.payload === "DogsApi"
             ? [...state.AllDogsCopia].filter(
                 (dog) => typeof dog.id === "number"
@@ -124,8 +124,9 @@ const rootReducer = (state = initialState, action) => {
       };
     
       case POST_DOG:
-        return{ ...state};
-
+        return{ ...state,
+        AllDogs: [...state.AllDogs, action.payload],
+        }
     default:
       return { ...state };
   }

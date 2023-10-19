@@ -1,225 +1,309 @@
-
-import React, { useState, useEffect } from "react";
+import Styles from "./Form.module.css";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import style from "../Form/Form.module.css";
 import { postDog, temperamentsDog } from "../../../Redux/actions";
+import validation from './validations';
 
-export default function Form() {
-  const dispatch = useDispatch();
-  const temperament = useSelector((state) => state.Temperaments);
-  const [errors, setErrors] = useState({});
-  let [input, setInput] = useState({
-    name: "",
-    heightMin: "",
-    heightMax: "",
-    weightMin: "",
-    weightMax: "",
-    life_span: "",
-    image_url: "",
-    temperament: [],
-  });
 
-  function handleInputChange(event) {
-    setInput({
-      ...input,
-      [event.target.name]: event.target.value,
+function Form() {
+	const temperaments = useSelector(state => state.Temperaments); //traigo los temperamentos del estado global para mapear en options
+	const dogs = useSelector(state => state.AllDogs); //traigo los perros del estado global para controlar no crear uno que ya este aqui
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(temperamentsDog());
+	}, [dispatch]);
+
+	//Estado local con valor de inputs
+	const [state, setState] = useState({
+		name: "",
+		minHeight: 0,
+		maxHeight: 0,
+		minWeight: 0,
+		maxWeight: 0,
+		minlife_span: 0,
+   		maxlife_span: 0,
+		temperaments: [],
+		imageUrl: "",
+	});
+
+	//-------------Manejo de errores-------------------
+	const [errors, setErrors] = useState({
+		name: "",
+		minHeight: "",
+		maxHeight: "",
+		minWeight: "",
+		maxWeight: "",
+		minlife_span: "",
+    	maxlife_span: "",
+		temperaments: "",
+		imageUrl: "",
+	});
+
+	const [submitDisabled, setSubmitDisabled] = useState(true); //estado para habilitar o deshabilitar el boton de submit
+
+	const disabledHandler = () => {
+		//habilita o deshabilita el boton de submit segun si estan completos los inputs
+		const completeFields =
+			state.name &&
+			state.minHeight &&
+			state.maxHeight &&
+			state.minWeight &&
+			state.maxWeight &&
+			state.minlife_span &&
+      		state.maxlife_span &&
+			state.temperaments.length > 0 &&
+			state.imageUrl;
+
+		setSubmitDisabled(!completeFields);
+	};
+
+	//-------------------- Manejo de inputs ------------------------------------
+	const handleChange = event => {
+		setState({
+			...state,
+			[event.target.name]: event.target.value,
+		});
+
+		setErrors(
+			//manejo de errores con validaciones
+			validation(
+				{
+					...state,
+					[event.target.name]: event.target.value
+				},
+				event.target.name
+			)
+		);
+
+		disabledHandler();
+		//console.log(state);
+	};
+
+	//--------------- Manejo de temperamentos seleccionados ---------------------
+	const [selectedTemperament, setSelectedTemperament] = useState("");
+
+  const temperamentHandler = event => {
+    setSelectedTemperament(event.target.value);
+  };
+
+  const handleDeleteTemperaments = event => {
+    setState({
+      ...state,
+      temperaments: state.temperaments.filter(el => el !== event),
     });
-    setErrors(
-      validate({
-        ...input,
-        [event.target.name]: event.target.value,
-      })
-    );
-  }
+  };
 
-  function handleSubmit(event) {
+  const temperamentSubmitHandler = event => {
     event.preventDefault();
 
-    if (Object.values(errors).length === 0 && input.temperament.length !== 0) {
-      const postData = {
-        name: input.name,
-        image: input.image_url,
-        height: `${input.heightMin} - ${input.heightMax}`,
-        weight: `${input.weightMin} - ${input.weightMax}`,
-        life_span: input.life_span,
-        temperaments: input.temperament,
-      };
-
-      dispatch(postDog(postData));
-      alert("Perrito creado");
-    } else {
-      alert(
-        "Información incompleta"
-      );
+    if (state.temperaments.includes(selectedTemperament)) {
+      alert("Ya se ha agregado este temperamento, seleccione otro");
+      return;
     }
-  }
 
-  function handleSelect(event) {
-    if (input.temperament.length < 3) {
-      setInput({
-        ...input,
-        temperament: [...input.temperament, event.target.value],
-      });
-      let temps = input.temperament;
-      let findTemp = temps.indexOf(event.target.value);
-      if (findTemp >= 0) {
-        temps.splice(findTemp, 1);
-      } else {
-        temps.push(event.target.value);
-      }
-      setInput({
-        ...input,
-        temperament: temps,
-      });
-    } else {
-      alert("Solo puedes seleccionar 3 temperamentos");
-    }
-  }
-
-  function handleDeleteTemperaments(event) {
-    setInput({
-      ...input,
-      temperament: input.temperament.filter((el) => el !== event),
+    setState({
+      ...state,
+      temperaments: [...state.temperaments, selectedTemperament],
     });
-  }
 
-  useEffect(() => {
-    dispatch(temperamentsDog());
-  }, [dispatch]);
+    setSelectedTemperament("");
 
-  return (
-    <div >
-      <div className={style.divformh1}>
-        <h1 className={style.h1form}>Nuevo perrito</h1>
-      </div>
+    if (ref.current) {
+      ref.current.selectedIndex = -1;
+    }
+  };
 
-      <div className={style.divform}>
-        <div >
-          <form onSubmit={(event) => handleSubmit(event)}>
-            <div className={style.labeldogsnamediv} >
-              <label className={style.labeldogsname}>Nombre</label>
-              <input
-                onChange={(event) => handleInputChange(event)}
-                type="text"
-                name="name"
-                value={input.name}
-                required
-                className={style.inputdogsname}
-              />
-              <span className={style.errorsdogsname}>
-                {errors.name && <p>{errors.name}</p>}
-              </span>
-            </div>
+  const ref = useRef(null); 
+	//----------------- Dispatch de la accion de agregar perro ------------------
 
-            <div className={style.labelminheightdiv}>
-              <label className={style.labeldogsname}>Min. Height </label>
-              <input
-                onChange={(event) => handleInputChange(event)}
-                type="text"
-                name="heightMin"
-                value={input.heightMin}
-                required
-                className={style.inputdogsname}
-              />
-              <span span className={style.errorsdogsname}>
-                {errors.heightMin && <p>{errors.heightMin}</p>}
-              </span>
-            </div>
+	let newDog = {
+		//creo el objeto con los datos del perro para enviar al servidor
+		name: state.name,
+		height: `${state.minHeight} - ${state.maxHeight}`,
+		weight: `${state.minWeight} - ${state.maxWeight}`,
+    	life_span: `${state.minlife_span} - ${state.maxlife_span}`,
+		temperament: state.temperaments,
+		image: state.imageUrl,
+	};
 
-            <div className={style.labeldogsnamediv} >
-              <label className={style.labeldogsname} >Max. Height </label>
-              <input
-                onChange={(event) => handleInputChange(event)}
-                type="text"
-                name="heightMax"
-                value={input.heightMax}
-                required
-                className={style.inputdogsname}
-              />
-              <span className={style.errorsdogsname}>
-                {errors.heightMax && <p>{errors.heightMax}</p>}
-              </span>
-            </div>
+	const handleSubmit = event => {
+		
+		event.preventDefault();
+		const imageExtension = state.imageUrl.substring(
+			state.imageUrl.lastIndexOf('.') + 1
+		  ).toLowerCase();
+		  if (!['jpg', 'png', 'gif'].includes(imageExtension)) {
+			alert('La imagen debe ser un archivo jpg, png o gif');
+			return;
+		  }
 
-            <div className={style.labeldogsnamediv} >
-              <label className={style.labeldogsname}>Min. Weight </label>
-              <input
-                onChange={(event) => handleInputChange(event)}
-                type="text"
-                name="weightMin"
-                value={input.weightMin}
-                required
-                className={style.inputdogsname}
-              />
-              <span className={style.errorsdogsname}>
-                {errors.weightMin && <p>{errors.weightMin}</p>}
-              </span>
-            </div>
+		if (
+			dogs.some(
+				dog => dog.name.trim().toLowerCase() === state.name.trim().toLowerCase()
+			)
+		) {
+			alert("Ya hay un perrito con ese nombre, escribe otro");
+			return;
+		}
 
-            <div className={style.labeldogsnamediv} >
-              <label className={style.labeldogsname}>Max. Weight </label>
-              <input
-                onChange={(event) => handleInputChange(event)}
-                type="text"
-                name="weightMax"
-                value={input.weightMax}
-                required
-                className={style.inputdogsname}
-              />
-              <span className={style.errorsdogsname}>
-                {errors.weightMax && <p>{errors.weightMax}</p>}
-              </span>
-            </div>
+		if (
+			errors.name ||
+			errors.temperaments 
+		
+		  ) {
+			alert("Completa los campos correctamente");
+			return;
+		  }
+	  
+		  if (parseInt(state.minHeight) > parseInt(state.maxHeight)) {
+			alert("La altura mínima no puede ser mayor a la altura máxima");
+			return;
+		  }
+	  
+		  if (parseInt(state.minWeight) > parseInt(state.maxWeight)) {
+			alert("El peso mínimo no puede ser mayor al peso máximo");
+			return;
+		  }
+	  
+		  if (parseInt(state.minlife_span) > parseInt(state.maxlife_span)) {
+			alert("Los años de vida mínimos no pueden ser mayor a los años máximos");
+			return;
+		  }
 
-            <div className={style.labeldogsnamediv} >
-              <label className={style.labeldogsname}> Años de vida </label>
-              <input
-                onChange={(event) => handleInputChange(event)}
-                type="text"
-                name="life_span"
-                value={input.life_span}
-                required
-                className={style.inputdogsname}
-              />
-              <span className={style.errorsdogsname}>
-                {errors.life_span && <p>{errors.life_span}</p>}
-              </span>
-            </div>
+		dispatch(postDog(newDog));
 
-            <div className={style.labeldogsnamediv} >
-              <label className={style.labeldogsname}>Image URL </label>
-              <input
-                onChange={(event) => handleInputChange(event)}
-                type="text"
-                name="image_url"
-                value={input.image_url}
-                required
-                className={style.inputdogsname}
-              />
-              <span className={style.errorsdogsname}>
-                {errors.image_url && <p>{errors.image_url}</p>}
-              </span>
-            </div>
+		setState({
+			name: '',
+			minHeight: 0,
+			maxHeight: 0,
+			minWeight: 0,
+			maxWeight: 0,
+			minlife_span: 0,
+			maxlife_span: 0,
+			temperaments: [],
+			imageUrl: '',
+		  });
+	};
 
-            <div>
-              <select className={style.temperamentform}
-                onChange={(event) => handleSelect(event)} 
+	return (
+		<div className={Styles.container}>
+			<form onSubmit={handleSubmit} className={Styles.form}>
+				<label>
+					Nombre del perrito:
+					<input
+						type="text"
+						name="name"
+						onChange={handleChange}
+						value={state.name}
+						placeholder="Ingresa el nombre"
+						required
+					/>
+					{errors.name && <p className={Styles.error}>{errors.name}</p>}
+				</label>
+
+				<div className={Styles.inlineInputs}>
+					<label>
+						Altura min:
+						<input
+							type="text"
+							name="minHeight"
+							onChange={handleChange}
+							placeholder="Ingresa la altura mínima"
+							required
+						/>
+						{errors.minHeight && (
+							<p className={Styles.error}>{errors.minHeight}</p>
+						)}
+					</label>
+					<label>
+						Altura max:
+						<input
+							onChange={handleChange}
+							placeholder="Ingresa la altura máxima"
+							type="text"
+							name="maxHeight"
+						/>
+						{errors.maxHeight && (
+							<p className={Styles.error}>{errors.maxHeight}</p>
+						)}
+					</label>
+				</div>
+				<div className={Styles.inlineInputs}>
+					<label>
+						Peso min:
+						<input
+							onChange={handleChange}
+							placeholder="Ingresa el peso mínimo"
+							type="text"
+							name="minWeight"
+						/>
+						{errors.minWeight && (
+							<p className={Styles.error}>{errors.minWeight}</p>
+						)}
+					</label>
+					<label>
+						Peso max:
+						<input
+							onChange={handleChange}
+							placeholder="Ingresa el peso máximo"
+							type="text"
+							name="maxWeight"
+						/>
+						{errors.maxWeight && (
+							<p className={Styles.error}>{errors.maxWeight}</p>
+						)}
+					</label>
+				</div>
+        <div className={Styles.inlineInputs}>
+				<label>
+					Años de vida min:
+					<input
+						onChange={handleChange}
+						placeholder="Ingresa años mínimos"
+						type="text"
+						name="minlife_span"
+					/>
+					{errors.minlife_span && (
+						<p className={Styles.error}>{errors.minlife_span}</p>
+					)}
+				</label>
+        <label>
+					Años de vida max:
+					<input
+						onChange={handleChange}
+						placeholder="Ingresa años máximos"
+						type="text"
+						name="maxlife_span"
+					/>
+					{errors.maxlife_span && (
+						<p className={Styles.error}>{errors.maxlife_span}</p>
+					)}
+				</label>
+        </div>
+				<label>
+				
+          <select className={Styles.temperamentform}
+                onChange={(event) => temperamentHandler(event)} 
               >
-                <option hidden >Temperaments</option>
-                {temperament?.map((el) => (
+                <option hidden >Temperamentos:</option>
+                {temperaments?.map((el) => (
                   <option value={el.name} key={el.id}>
                     {el.name}
                   </option>
                 ))}
               </select>
-              
-              <button type="submit" className={style.temperamentform}>
-                CREAR PERRITO
-              </button>
-            </div>
-          </form>
-          {input.temperament.map((el) => (
+
+					<button className={Styles.addTemp} onClick={temperamentSubmitHandler}>
+						Agregar
+					</button>
+          
+					{errors.temperaments && (
+						<p className={Styles.error}>{errors.temperaments}</p>
+					)}
+          {state.temperaments.map((el) => (
             <div key={el}>
+
               <button
                 onClick={() => handleDeleteTemperaments(el)}
               >
@@ -227,67 +311,37 @@ export default function Form() {
               </button>
             </div>
           ))}
-          
-        </div>
-      </div>
-    </div>
-  );
+
+				</label>
+				<label>
+					Imagen url:
+					<input
+						onChange={handleChange}
+						placeholder="Ingresa url de la imagen"
+						type="text"
+						name="imageUrl"
+					/>
+					{errors.imageUrl && <p className={Styles.error}>{errors.imageUrl}</p>}
+				</label>
+
+				<button
+					className={Styles.submitBtn}
+					value="Crear"
+					onClick={handleSubmit}
+					type="submit"
+					disabled={submitDisabled}
+				>
+					Agregar
+				</button>
+				{submitDisabled ? (
+					<p className={Styles.submitDisabled}>
+						Llena todos los campos para crear el perrito
+					</p>
+				) : null}
+			</form>
+      
+		</div>
+	);
 }
 
-function validate(input) {
-  let errors = {};
-
-  if (!input.name) {
-    errors.name = "El nombre es requerido";
-  } else if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/.test(input.name)) {
-    errors.name = "El nombre solo puede contener letras";
-  }
-
-  if (!input.heightMin) {
-    errors.heightMin = "La altura mínima es requerida";
-  } else if (!/^([0-9])*$/.test(input.heightMin)) {
-    errors.heightMin = "Solo puede ser un numero";
-  } else if (input.heightMin < 1 || input.heightMin > 50) {
-    errors.heightMin = "Solo puede ser entre 0 y 50 cm";
-  }
-
-  if (!input.heightMax) {
-    errors.heightMax = "La altura máxima es requerida";
-  } else if (!/^([0-9])*$/.test(input.heightMax)) {
-    errors.heightMax = "Solo puede ser un numero";
-  } else if (input.heightMax > 100) {
-    errors.heightMax = "No puede ser mayor a 100 cm";
-  } else if (input.heightMax === input.heightMin) {
-    errors.heightMax = "La altura máxima no puede ser igual a la mínima";
-  }
-
-  if (!input.weightMin) {
-    errors.weightMin = "El peso mínimo es requerido";
-  } else if (!/^([0-9])*$/.test(input.weightMin)) {
-    errors.weightMin = "Solo puede ser un numero";
-  } else if (input.weightMin < 1 || input.weightMin > 50) {
-    errors.weightMin = "Solo puede ser entre 0 y 50 Kgs";
-  }
-
-  if (!input.weightMax) {
-    errors.weightMax = "El peso máximo es requerido";
-  } else if (!/^([0-9])*$/.test(input.weightMax)) {
-    errors.weightMax = "Solo puede ser un numero";
-  } else if (input.weightMax > 100) {
-    errors.weightMax = "No puede ser mayor a 100 Kgs";
-  } else if (input.weightMax === input.weightMin) {
-    errors.weightMax = "El peso máximo no puede ser igual al minimo";
-  }
-
-  if (!input.life_span) {
-    errors.life_span = "Los años de vida son requeridos";
-  } else if (!/^([0-9])*$/.test(input.life_span)) {
-    errors.life_span = "Solo puede ser un numero";
-  }
-
-  if (!input.temperament) {
-    errors.temperament = "Los temperamentos son requeridos";
-  }
-
-  return errors;
-}
+export default Form;

@@ -1,34 +1,31 @@
-.div {
-  display: flex;
-  flex-wrap: wrap;
+.container {
+	display: flex;
+	justify-content: center;
+	margin: 0 0 20px 0;
+	flex-wrap: wrap;
+}
+
+.buttons_container {
+	margin-bottom: 50px;
+}
+
+.next, .inter{
+	background-color: #524A4E;
+	color: #fff;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 2px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-bottom: 1rem;
+    margin-right: 10px;
+}
+
+
+
+.activeButton {
+	background-color: #FFC0D3; 
+	color: #524A4E; 
+	font-weight: bold;
+  }
   
-}
-
-.divPadre {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-}
-
-.img {
-  width: 600px;
-  height: 00px;
-}
-
-.Paginado {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.PaginadoPadre {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/*
-flex-wrap lo que hace es que se ajusta el contenido o elementos del div se ajusten ante la pantalla...
-*/

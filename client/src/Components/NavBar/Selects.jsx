@@ -34,7 +34,7 @@ const Selects = () => {
   };
 
   const HandleChangeOrdenarTemperaments = (event) => {
-    if (event.target.value === "Selected a Temperament") {
+    if (event.target.value === "Select a Temperament") {
       return;
     } else {
       dispatch(FiltradoPorTemperamento(event.target.value));
@@ -49,7 +49,7 @@ const Selects = () => {
     <div className={styles.div}>
       <div className={styles.div1}>
 
-        <select className={styles.select} onChange={HandleChangeOrdenarLosDogs} value="AllDogs">
+        <select className={styles.select} onChange={HandleChangeOrdenarLosDogs} defaultvalue="AllDogs">
           <option value="AllDogs">Todos</option>
           <option value="DogsApi">PerritosApi</option>
           <option value="DogsCreate">PerritosCreados</option>
@@ -65,7 +65,7 @@ const Selects = () => {
           <option value="z-a">Z-A</option>
         </select>
         <select className={styles.select} onChange={HandleChangeOrdenarTemperaments} defaultValue="Selected a Temperament">
-          <option value="Selected a Temperament">Temperamentos</option>
+          <option value="Select a Temperament">Temperamentos</option>
           {Temperaments?.map((temp) => {
             return (
               <option key={temp.name} value={temp.name}>

@@ -75,7 +75,6 @@ export const FiltradoPorPeso = (event) => {
 };
 
 export const FiltradoAbecedario = (event) => {
-  // event en este caso seria A-Z o Z-A
   try {
     return {
       type: ORDENAMIENTO_ABECEDARIO,
@@ -87,7 +86,6 @@ export const FiltradoAbecedario = (event) => {
 };
 
 export const FiltradoPorTemperamento = (event) => {
-  // en este caso seria por temperamento..
   try {
     return {
       type: FILTRADO_TEMPERAMENTO,
@@ -98,32 +96,31 @@ export const FiltradoPorTemperamento = (event) => {
   }
 };
 
-export const FiltradoPorDogs = (event) => {
-  // en este caso seria por temperamento..
+export const FiltradoPorDogs = (created) => {
   try {
-    return {
-      type: FILTRADO_DOGS,
-      payload: event,
-    };
+    return (dispatch) => {
+      return dispatch({
+        type: FILTRADO_DOGS,
+        payload: created
+      });
+      }
+     
   } catch (error) {
     alert(error.message);
   }
 };
 
-
-export const postDog = (data) => {
-  return async function (dispatch) {
+export const postDog = (dog) => {
+  return async (dispatch) => {
       try {
-          const posted = await axios.post('http://localhost:3001/dogs', data)
-          return dispatch({
-              type: POST_DOG,
-              payload: posted.data
-          })
+          const response = await axios.post('http://localhost:3001/dogs', dog);
+          dispatch({ type: POST_DOG, payload: response.data });
+          alert("Perro creado correctamente")
+          return response;
       } catch (error) {
-          console.log(error);
+          alert(error.message)
       }
-      
-  }
+  };
 };
 
 export const cleanDetail = () => {

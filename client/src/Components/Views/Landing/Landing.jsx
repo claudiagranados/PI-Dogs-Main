@@ -9,7 +9,7 @@ const Landing = () => {
       <div className={style.overlay}></div>
       <div className={style.content}>
         <h1 className={style.title}>Hola, esta es mi Dog Api</h1>
-        <Link to="/home" className={style.link}>
+        <Link to="/Home" className={style.link}>
           <button className={`${style.button} ${style.enterButton}`}>Entrar</button>
         </Link>
       </div>

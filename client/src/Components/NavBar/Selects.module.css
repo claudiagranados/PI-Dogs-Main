@@ -12,7 +12,7 @@
 
 .div1 {
   display: flex;
-  justify-content: normal;
+  justify-content: space-around;
   margin: 15px;
 }
 

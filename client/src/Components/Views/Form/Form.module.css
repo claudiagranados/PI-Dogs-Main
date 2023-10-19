@@ -1,75 +1,120 @@
-.divform {
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 430px;
+  margin: 0 auto;
+  font-size: 14px;
+  font-weight: bold;
   text-align: center;
-  margin-top: 30px;
-  border-radius: 0;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background);
+  background-image: url("../../../extras/dog-form.png");
+  background-blend-mode: multiply;
+  background-size: cover;
 }
 
-.h1form {
-  color: FF5C8D;
-  text-align: center;
-  margin: 0;
+label {
+  margin-bottom: 10px; 
+  color: #FF5C8D; 
+  font-size: 18px; 
+  font-weight: normal; 
 }
 
-.inputdogsname,
-.temperamentform {
+.inlineInputs {
+  display: flex;
+  justify-content: spaccoe-between;
+  gap: 30px; 
+}
+
+.inlineInputs label {
+  flex: 1;
+  margin-right: 10px;
+}
+
+input[type="text"] {
   border: none;
-  font-size: inherit;
-  color: inherit;
-  background: none;
-  cursor: pointer;
-  padding: 10px 20px;
-  margin: 10px 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 50;
+  border-bottom: 1px solid #FF5C8D; /* Cambia el color del borde inferior */
   outline: none;
-  position: relative;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-  font-size: x-small;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
+  font-weight: normal; /* Reduce el grosor de fuente de los campos de entrada */
+  font-size: 16px; /* Aumenta el tamaño de fuente de los campos de entrada */
+}
+
+.submitBtn {
+  background-color: #FF5C8D; /* Cambia el color de fondo del botón */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold; /* Aumenta el grosor de fuente del botón */
+}
+
+.submitBtn:hover {
+  background-color: #FF2C63; /* Cambia el color de fondo al pasar el mouse */
+}
+
+.submitBtn[disabled] {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.submitDisabled {
+  color: red;
+  font-weight: normal;
+}
+
+.container {
+  margin-top: 30px; /* Reduce el margen superior del contenedor */
   border-radius: 0;
 }
 
-.inputdogsname:before,
-.temperamentform:before {
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  position: absolute;
-  -webkit-font-smoothing: antialiased;
-  background: FDEFF4;
-  height: 100%;
-  left: 0;
-  top: 0;
-  line-height: 3;
-  font-size: 140%;
-  width: 40px;
+.addTemp {
+  border: none;
+  background-color: #FF5C8D;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.3rem;
+  margin-top: 5px;
 }
 
-.inputdogsname,
-.temperamentform {
-  background: rgb(255, 192, 211);
-  color: 524A4E;
-  margin-bottom: 10px
+.addTemp:hover {
+  background-color: #FF2C63;
 }
 
-.inputdogsname:hover,
-.temperamentform:hover {
-  background: rgb(188, 152, 126);
+.select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  outline: none;
+  background: #ffffff;
+  font-weight: normal; 
+  font-size: 14px; 
+  color: #FF5C8D; 
 }
 
-.inputdogsname:active,
-.temperamentform:active {
-  background: rgb(188, 152, 126);
-  top: 2px;
+.select:focus {
+  border-color: #FF5C8D;
 }
 
-.labeldogsname,
-.labeldogsnamediv,
-.labelminheightdiv {
-  color: FFC0D3;
-  font-size: 23px;
+.select option {
+  padding: 5px;
+  color: black;
+}
+
+.error {
+  color: red;
+  font-size: 14px; /* Aumenta el tamaño de fuente del mensaje de error */
 }
